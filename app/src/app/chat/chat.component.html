@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    <nav class="nav nav-pills">
+
+
+      <form class="form-inline" *ngIf="!conectado">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="username..." [(ngModel)]="mensaje.username" name="username">
+        </div>
+        <a class="btn nav-item nav-link text-primary" (click)="conectar()" *ngIf="!conectado">Conectar</a>
+      </form>
+
+
+
+      <a class="btn nav-item nav-link text-warning" (click)="desconectar()" *ngIf="conectado">Desconectar</a>
+    </nav>
+  </div>
+  <div class="card-body" style="overflow-y: scroll; height:360px;" *ngIf="conectado">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item list-group-item  " *ngFor="let mensaje of mensajes">
+        <span *ngIf="mensaje.tipo=='NUEVO_USUARIO'">
+          {{mensaje.fecha | date:'shortTime'}} : <span [ngStyle]="{'color': mensaje.color}">{{mensaje.texto}}</span>
+        </span>
+        <span *ngIf="mensaje.tipo=='MENSAJE'">
+          {{mensaje.fecha | date:'shortTime'}} :
+          <span [ngStyle]="{'color': mensaje.color}">{{mensaje.username}}</span>: {{mensaje.texto}}
+        </span>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer" *ngIf="conectado">
+    <form class="form-inline">
+      <div class="form-group">
+        <input (keyup)="escribiendoEvento()" type="text" class="form-control" placeholder="escribe un mensaje..." [(ngModel)]="mensaje.texto" name="mensaje">
+      </div>
+      <button  class="btn btn-primary" type="submit" name="button" (click)="enviarMensaje()">enviar</button>
+    </form>
+    {{escribiendo}}
+  </div>
+</div>
